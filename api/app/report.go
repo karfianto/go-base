@@ -3,11 +3,13 @@ package app
 import (
 	"context"
 	"errors"
+	"net/http"
+
 	"github.com/dhax/go-base/auth/jwt"
 	"github.com/dhax/go-base/models"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
-	"net/http"
+	validation "github.com/go-ozzo/ozzo-validation"
 )
 
 // The list of error types returned from account resource.
@@ -35,9 +37,11 @@ func NewReportResource(store ReportStore) *ReportResource {
 
 func (rs *ReportResource) router() *chi.Mux {
 	r := chi.NewRouter()
-	r.Use(rs.reportCtx)
-	r.Get("/", rs.get)
 	r.Post("/", rs.create)
+	r.Group(func(r chi.Router) {
+		r.Use(rs.reportCtx)
+		r.Get("/", rs.get)
+	})
 	return r
 }
 
@@ -81,17 +85,20 @@ func (rs *ReportResource) get(w http.ResponseWriter, r *http.Request) {
 }
 
 func (rs *ReportResource) create(w http.ResponseWriter, r *http.Request) {
-	data := &reportRequest{}/*
+	data := &reportRequest{}
 	if err := render.Bind(r, data); err != nil {
 		render.Render(w, r, ErrInvalidRequest(err))
 	}
-*/
+
+	claims := jwt.ClaimsFromCtx(r.Context())
+	data.AccountID = claims.ID
+
 	if err := rs.Store.Create(data.Report); err != nil {
-		//switch err.(type) {
-		//case validation.Errors:
-		//	render.Render(w, r, ErrValidation(ErrReportValidation, err.(validation.Errors)))
-		//	return
-		//}
+		switch err.(type) {
+		case validation.Errors:
+			render.Render(w, r, ErrValidation(ErrReportValidation, err.(validation.Errors)))
+			return
+		}
 		render.Render(w, r, ErrRender(err))
 		return
 	}

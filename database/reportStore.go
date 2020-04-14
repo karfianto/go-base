@@ -4,7 +4,6 @@ import (
 	"github.com/dhax/go-base/models"
 	"github.com/go-pg/pg"
 	//"database/sql"
-	"log"
 )
 
 // ReportStore implements database operations for profile management.
@@ -12,7 +11,7 @@ type ReportStore struct {
 	db *pg.DB
 }
 
-// NewProfileStore returns a ReportStore implementation.
+// NewReportStore returns a ReportStore implementation.
 func NewReportStore(db *pg.DB) *ReportStore {
 	return &ReportStore{
 		db: db,
@@ -22,9 +21,9 @@ func NewReportStore(db *pg.DB) *ReportStore {
 // Get gets a report by account ID.
 func (s *ReportStore) Get(accountID int) (*models.Report, error) {
 	p := models.Report{AccountID: accountID}
-	_, err := s.db.Model(&p).
+	err := s.db.Model(&p).
 		Where("account_id = ?", accountID).
-		SelectOrInsert()
+		First()
 
 	return &p, err
 }
@@ -35,13 +34,7 @@ func (s *ReportStore) Update(p *models.Report) error {
 	return err
 }
 
-
 // Create inserts the Reports to the database.
 func (s *ReportStore) Create(p *models.Report) error {
-	err := s.db.Insert(p)
-	log.Println(p)
-	if err != nil {
-		return err
-	}
-	return err
+	return s.db.Insert(p)
 }

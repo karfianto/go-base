@@ -2,20 +2,19 @@
 package models
 
 import (
-	"database/sql"
-	"github.com/go-ozzo/ozzo-validation"
 	"time"
-	//"github.com/pkg/errors"
 
+	validation "github.com/go-ozzo/ozzo-validation"
+	//"github.com/pkg/errors"
 )
 
-// Profile holds specific application settings linked to an Account.
+// Report holds specific application settings linked to an Account.
 type Report struct {
 	// Reports represents public.reports
-	Id              int   `sql:",pk,unique"`          // id
-	AccountID       int   // account_id
-	UpdatedAt       time.Time      // date
-	Complaint       sql.NullString  // complaint
+	ID        int       `json:"id"`
+	AccountID int       // account_id
+	UpdatedAt time.Time // date
+	Complaint string    // complaint
 }
 
 // Validate validates Profile struct and returns validation errors.
