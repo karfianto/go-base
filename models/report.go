@@ -41,14 +41,7 @@ type Report struct {
 
 // BeforeInsert hook executed before database insert operation.
 func (p *Report) BeforeInsert(db orm.DB) error {
-	p.UpdatedAt = time.Now()
 	return nil
-}
-
-// BeforeUpdate hook executed before database update operation.
-func (p *Report) BeforeUpdate(db orm.DB) error {
-	p.UpdatedAt = time.Now()
-	return p.Validate()
 }
 
 // Validate validates Profile struct and returns validation errors.

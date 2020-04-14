@@ -2,6 +2,8 @@ module github.com/dhax/go-base
 
 require (
 	github.com/PuerkitoBio/goquery v1.4.1 // indirect
+	github.com/achiku/dgw v0.0.0-20190416015338-c5a842dc7b01 // indirect
+	github.com/achiku/varfmt v0.0.0-20160708124000-f820e1efecee // indirect
 	github.com/andybalholm/cascadia v1.0.0 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20180720115003-f9ffefc3facf // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
@@ -19,12 +21,14 @@ require (
 	github.com/jaytaylor/html2text v0.0.0-20200220170450-61d9dc4d7195
 	github.com/jinzhu/inflection v0.0.0-20180308033659-04140366298a // indirect
 	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
+	github.com/lib/pq v1.3.0 // indirect
 	github.com/mattn/go-runewidth v0.0.8 // indirect
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/mssola/user_agent v0.5.1
 	github.com/olekukonko/tablewriter v0.0.4 // indirect
 	github.com/onsi/gomega v1.4.2 // indirect
 	github.com/pelletier/go-toml v1.6.0 // indirect
+	github.com/pkg/errors v0.8.0
 	github.com/sirupsen/logrus v1.4.2
 	github.com/spf13/afero v1.2.2 // indirect
 	github.com/spf13/cast v1.3.1 // indirect

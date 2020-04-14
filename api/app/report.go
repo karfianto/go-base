@@ -20,8 +20,7 @@ var (
 // ReportStore defines database operations for a report.
 type ReportStore interface {
 	Get(accountID int) (*models.Report, error)
-	Insert(p *models.Report) error
-	Update(p *models.Report) error
+	Create(p *models.Report) error
 }
 
 // ReportResource implements report management handler.
@@ -40,8 +39,7 @@ func (rs *ReportResource) router() *chi.Mux {
 	r := chi.NewRouter()
 	r.Use(rs.reportCtx)
 	r.Get("/", rs.get)
-	r.Post("/", rs.insert)
-	r.Put("/", rs.update)
+	r.Post("/", rs.create)
 	return r
 }
 
@@ -83,14 +81,13 @@ func (rs *ReportResource) get(w http.ResponseWriter, r *http.Request) {
 	render.Respond(w, r, newReportResponse(p))
 }
 
-func (rs *ReportResource) insert(w http.ResponseWriter, r *http.Request) {
-	p := r.Context().Value(ctxReport).(*models.Report)
+func (rs *ReportResource) create(w http.ResponseWriter, r *http.Request) {
 	data := &reportRequest{Report: p}
 	if err := render.Bind(r, data); err != nil {
 		render.Render(w, r, ErrInvalidRequest(err))
 	}
 
-	if err := rs.Store.Insert(p); err != nil {
+	if err := rs.Store.Create(p); err != nil {
 		switch err.(type) {
 		case validation.Errors:
 			render.Render(w, r, ErrValidation(ErrReportValidation, err.(validation.Errors)))
