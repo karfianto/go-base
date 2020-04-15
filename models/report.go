@@ -2,10 +2,10 @@
 package models
 
 import (
-	"time"
 	"database/sql"
 	"github.com/go-ozzo/ozzo-validation"
 	"github.com/go-pg/pg/orm"
+	"time"
 	//"github.com/pkg/errors"
 
 )
@@ -41,6 +41,7 @@ type Report struct {
 
 // BeforeInsert hook executed before database insert operation.
 func (p *Report) BeforeInsert(db orm.DB) error {
+	//p.AccountID =
 	return nil
 }
 

@@ -19,7 +19,7 @@ func NewAccountStore(db *pg.DB) *AccountStore {
 	}
 }
 
-// Get an account by ID.
+// List an account by ID.
 func (s *AccountStore) Get(id int) (*pwdless.Account, error) {
 	a := pwdless.Account{ID: id}
 	err := s.db.Model(&a).

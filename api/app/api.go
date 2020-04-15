@@ -24,7 +24,7 @@ const (
 type API struct {
 	Account *AccountResource
 	Profile *ProfileResource
-	Report *ReportResource
+	Reports *ReportResource
 }
 
 // NewAPI configures and returns application API.
@@ -36,12 +36,12 @@ func NewAPI(db *pg.DB) (*API, error) {
 	profile := NewProfileResource(profileStore)
 
 	reportStore := database.NewReportStore(db)
-	report := NewReportResource(reportStore)
+	reports := NewReportResource(reportStore)
 
 	api := &API{
 		Account: account,
 		Profile: profile,
-		Report: report,
+		Reports: reports,
 	}
 	return api, nil
 }
@@ -52,7 +52,7 @@ func (a *API) Router() *chi.Mux {
 
 	r.Mount("/account", a.Account.router())
 	r.Mount("/profile", a.Profile.router())
-	r.Mount("/report", a.Report.router())
+	r.Mount("/report", a.Reports.router())
 
 	return r
 }

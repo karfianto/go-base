@@ -17,7 +17,7 @@ func NewProfileStore(db *pg.DB) *ProfileStore {
 	}
 }
 
-// Get gets an profile by account ID.
+// List gets an profile by account ID.
 func (s *ProfileStore) Get(accountID int) (*models.Profile, error) {
 	p := models.Profile{AccountID: accountID}
 	_, err := s.db.Model(&p).

@@ -97,7 +97,7 @@ func (s *AdmAccountStore) Create(a *pwdless.Account) error {
 	return err
 }
 
-// Get account by ID.
+// List account by ID.
 func (s *AdmAccountStore) Get(id int) (*pwdless.Account, error) {
 	a := pwdless.Account{ID: id}
 	err := s.db.Select(&a)
