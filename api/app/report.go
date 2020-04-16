@@ -2,7 +2,7 @@ package app
 
 import (
 	"errors"
-	"github.com/dhax/go-base/auth/jwt"
+	//"github.com/dhax/go-base/auth/jwt"
 
 	//"github.com/dhax/go-base/auth/pwdless"
 	"github.com/dhax/go-base/database"
@@ -63,7 +63,6 @@ func (rs *ReportResource) reportCtx(next http.Handler) http.Handler {
 */
 type reportRequest struct {
 	*models.Report
-	ProtectedID int `json:"id"`
 }
 
 func (d *reportRequest) Bind(r *http.Request) error {
@@ -85,9 +84,7 @@ func newReportResponse(a []models.Report, count int) *reportResponse {
 }
 
 func (rs *ReportResource) list(w http.ResponseWriter, r *http.Request) {
-	claims := jwt.ClaimsFromCtx(r.Context())
-
-	f, err := database.NewReportFilter(claims)
+	f, err := database.NewReportFilter(r.URL.Query())
 	if err != nil {
 		render.Render(w, r, ErrRender(err))
 		return
