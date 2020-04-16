@@ -11,7 +11,6 @@ import (
 // Report holds specific application settings linked to an Account.
 type Report struct {
 	// Reports represents public.reports
-	ID        int       `json:"id"`
 	AccountID int       // account_id
 	UpdatedAt time.Time // date
 	Complaint string    // complaint

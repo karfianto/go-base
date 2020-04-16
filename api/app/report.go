@@ -62,6 +62,7 @@ func (rs *ReportResource) reportCtx(next http.Handler) http.Handler {
 
 type reportRequest struct {
 	*models.Report
+	ProtectedID int `json:"id"`
 }
 
 func (d *reportRequest) Bind(r *http.Request) error {
@@ -69,18 +70,18 @@ func (d *reportRequest) Bind(r *http.Request) error {
 }
 
 type reportResponse struct {
-	*models.Report
+	Reports []models.Report `json:"reports"`
 }
 
-func newReportResponse(p *models.Report) *reportResponse {
-	return &reportResponse{
-		Report: p,
+func newReportResponse(a []models.Report) *reportResponse {
+	resp := &reportResponse{
+		Reports: a,
 	}
-
+	return resp
 }
 
 func (rs *ReportResource) get(w http.ResponseWriter, r *http.Request) {
-	p := r.Context().Value(ctxReport).(*models.Report)
+	p := r.Context().Value(ctxReport).([]models.Report)
 	render.Respond(w, r, newReportResponse(p))
 }
 
